@@ -40,7 +40,7 @@ function destroyMainMenu() {
 function createTheRougulator() {
     main_page.appendChild(document.createElement("div")).id = "the_rougulator";
     document.getElementById("the_rougulator").innerHTML = `
-    <div> class = "rougulator_frame">
+    <div class = "rougulator_frame">
         <div class = "display_screen_frame">
             <div class = "display_screen"></div>
         </div>
