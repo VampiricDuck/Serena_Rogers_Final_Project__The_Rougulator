@@ -1,7 +1,9 @@
 // ------------------------------------------------------------------------------//
 // Global Variables //
 const main_page = document.getElementById("main_page");
+const overlay = document.getElementById("overlay");
 let rougeulator_screen_value = "";
+let totalShards = 0;
 // ------------------------------------------------------------------------------//
 
 // ------------------------------------------------------------------------------//
@@ -41,6 +43,7 @@ function destroyMainMenu() {
 function createTheRougeulator() {
     main_page.appendChild(document.createElement("div")).id = "the_rougeulator";
     document.getElementById("the_rougeulator").innerHTML = `
+    <p class = "rougeulator_shards_display">Shards: ${totalShards}</p>
     <div class = "rougeulator_frame">
         <div class = "display_screen_frame">
             <div class = "display_screen"></div>
@@ -70,16 +73,30 @@ function createTheRougeulator() {
     <button id = "debug_essence_button">Debug</button>
     `
     document.getElementById("debug_essence_button").addEventListener("click", function() {
-        document.getElementById("essence_slot_1").addEventListener("click", function() {
-            essence_one.ability();
-        })
-        document.getElementById("linking_essence_slot_1").addEventListener("click", function() {
-            essence_add.ability();
-        });
+        totalShards = 1000000;
+        shopOverlay();
+    });
+    document.getElementById("disintegrate_button").addEventListener("click", function() {
+        document.getElementById("display_screen_text").innerHTML = ":";
+        rougeulator_screen_value = "";
     });
 };
 // =n W n= //
-function debugC() {
+function shopOverlay() {
+    overlay.innerHTML = `
+    <div class = "shop_overlay">
+        <p class = "shop_title">Shop</p>
+        <p class = "shop_currency_display">Shards: ${totalShards}</p>
+    `
+    overlay.style.display = "flex";
+    //document.getElementById("close_overlay").addEventListener("click", function() {
+    //    overlay.innerHTML = "";
+    //    overlay.style.display = "none";
+    //});
+}
+
+// =n W n= //
+function debugCalc() { //can only be called in the html terminal
     let calc = document.getElementById("display_screen_text").innerHTML;
     console.log(eval(rougeulator_screen_value));
 }
