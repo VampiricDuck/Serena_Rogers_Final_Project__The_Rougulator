@@ -1,3 +1,6 @@
+// change the rogulator_essence_buttons to hold the essence objects instead of the name. this will make it esier to edit them and call the abilities. 
+
+
 // ------------------------------------------------------------------------------//
 // Global Variables //
 const main_page = document.getElementById("main_page");
@@ -5,18 +8,6 @@ const overlay = document.getElementById("overlay");
 const overlay2 = document.getElementById("overlay2");
 let rougeulator_screen_value = "";
 let totalShards = 0;
-let rougulator_essences_button_1 = "";
-let rougulator_essences_button_2 = "";
-let rougulator_essences_button_3 = "";
-let rougulator_essences_button_4 = "";
-let rougulator_essences_button_5 = "";
-let rougulator_essences_button_6 = "";
-let rougulator_essences_button_7 = "";
-let rougulator_essences_button_8 = "";
-let rougulator_linking_essences_button_1 = "";
-let rougulator_linking_essences_button_2 = "";
-let rougulator_linking_essences_button_3 = "";
-let rougulator_linking_essences_button_4 = "";
 // ------------------------------------------------------------------------------//
 
 // ------------------------------------------------------------------------------//
@@ -100,18 +91,18 @@ function createTheRougeulator() {
 
 function updateRougeulator() {
     document.getElementById("rougeulator_shards_display").innerHTML = `Shards: ${totalShards}`;
-    document.getElementById("essence_slot_1").innerHTML = rougulator_essences_button_1;
-    document.getElementById("essence_slot_2").innerHTML = rougulator_essences_button_2;
-    document.getElementById("essence_slot_3").innerHTML = rougulator_essences_button_3;
-    document.getElementById("essence_slot_4").innerHTML = rougulator_essences_button_4;
-    document.getElementById("essence_slot_5").innerHTML = rougulator_essences_button_5;
-    document.getElementById("essence_slot_6").innerHTML = rougulator_essences_button_6;
-    document.getElementById("essence_slot_7").innerHTML = rougulator_essences_button_7;
-    document.getElementById("essence_slot_8").innerHTML = rougulator_essences_button_8;
-    document.getElementById("linking_essence_slot_1").innerHTML = rougulator_linking_essences_button_1;
-    document.getElementById("linking_essence_slot_2").innerHTML = rougulator_linking_essences_button_2;
-    document.getElementById("linking_essence_slot_3").innerHTML = rougulator_linking_essences_button_3;
-    document.getElementById("linking_essence_slot_4").innerHTML = rougulator_linking_essences_button_4;
+    document.getElementById("essence_slot_1").innerHTML = rougulator_essences_button_1.name;
+    document.getElementById("essence_slot_2").innerHTML = rougulator_essences_button_2.name;
+    document.getElementById("essence_slot_3").innerHTML = rougulator_essences_button_3.name;
+    document.getElementById("essence_slot_4").innerHTML = rougulator_essences_button_4.name;
+    document.getElementById("essence_slot_5").innerHTML = rougulator_essences_button_5.name;
+    document.getElementById("essence_slot_6").innerHTML = rougulator_essences_button_6.name;
+    document.getElementById("essence_slot_7").innerHTML = rougulator_essences_button_7.name;
+    document.getElementById("essence_slot_8").innerHTML = rougulator_essences_button_8.name;
+    document.getElementById("linking_essence_slot_1").innerHTML = rougulator_linking_essences_button_1.name;
+    document.getElementById("linking_essence_slot_2").innerHTML = rougulator_linking_essences_button_2.name;
+    document.getElementById("linking_essence_slot_3").innerHTML = rougulator_linking_essences_button_3.name;
+    document.getElementById("linking_essence_slot_4").innerHTML = rougulator_linking_essences_button_4.name;
 }
 
 // =n W n= //
@@ -312,6 +303,7 @@ class numericalEssence extends essenceTemplate {
 
 // ------------------------------------------------------------------------------//
 // Classes Objects //
+let essence_null = new numericalEssence("", "null_essence", "null", null, "", "", 0, null, null);
 let essence_one = new numericalEssence("1", "essence_1", "essence", 1, "", "", 10, 0, 1);
 let essence_two = new numericalEssence("2", "essence_2", "essence", 2, "", "", 10, 1, 1);
 let essence_three = new numericalEssence("3", "essence_3", "essence", 3, "", "", 10, 2, 1);
@@ -348,4 +340,18 @@ let Linking_Essence_dictionary = {
     2: essence_multiply,
     3: essence_divide,
 };
+// ------------------------------------------------------------------------------//
+// Global Variables Pt: 2 //
+let rougulator_essences_button_1 = essence_null;
+let rougulator_essences_button_2 = essence_null;
+let rougulator_essences_button_3 = essence_null;
+let rougulator_essences_button_4 = essence_null;
+let rougulator_essences_button_5 = essence_null;
+let rougulator_essences_button_6 = essence_null;
+let rougulator_essences_button_7 = essence_null;
+let rougulator_essences_button_8 = essence_null;
+let rougulator_linking_essences_button_1 = essence_null;
+let rougulator_linking_essences_button_2 = essence_null;
+let rougulator_linking_essences_button_3 = essence_null;
+let rougulator_linking_essences_button_4 = essence_null;
 // ------------------------------------------------------------------------------//
