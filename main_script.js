@@ -2,20 +2,21 @@
 // Global Variables //
 const main_page = document.getElementById("main_page");
 const overlay = document.getElementById("overlay");
+const overlay2 = document.getElementById("overlay2");
 let rougeulator_screen_value = "";
 let totalShards = 0;
-let rougulator_essences_button_1 = null;
-let rougulator_essences_button_2 = null;
-let rougulator_essences_button_3 = null;
-let rougulator_essences_button_4 = null;
-let rougulator_essences_button_5 = null;
-let rougulator_essences_button_6 = null;
-let rougulator_essences_button_7 = null;
-let rougulator_essences_button_8 = null;
-let rougulator_linking_essences_button_1 = null;
-let rougulator_linking_essences_button_2 = null;
-let rougulator_linking_essences_button_3 = null;
-let rougulator_linking_essences_button_4 = null;
+let rougulator_essences_button_1 = "";
+let rougulator_essences_button_2 = "";
+let rougulator_essences_button_3 = "";
+let rougulator_essences_button_4 = "";
+let rougulator_essences_button_5 = "";
+let rougulator_essences_button_6 = "";
+let rougulator_essences_button_7 = "";
+let rougulator_essences_button_8 = "";
+let rougulator_linking_essences_button_1 = "";
+let rougulator_linking_essences_button_2 = "";
+let rougulator_linking_essences_button_3 = "";
+let rougulator_linking_essences_button_4 = "";
 // ------------------------------------------------------------------------------//
 
 // ------------------------------------------------------------------------------//
@@ -97,6 +98,22 @@ function createTheRougeulator() {
     });
 };
 
+function updateRougeulator() {
+    document.getElementById("rougeulator_shards_display").innerHTML = `Shards: ${totalShards}`;
+    document.getElementById("essence_slot_1").innerHTML = rougulator_essences_button_1;
+    document.getElementById("essence_slot_2").innerHTML = rougulator_essences_button_2;
+    document.getElementById("essence_slot_3").innerHTML = rougulator_essences_button_3;
+    document.getElementById("essence_slot_4").innerHTML = rougulator_essences_button_4;
+    document.getElementById("essence_slot_5").innerHTML = rougulator_essences_button_5;
+    document.getElementById("essence_slot_6").innerHTML = rougulator_essences_button_6;
+    document.getElementById("essence_slot_7").innerHTML = rougulator_essences_button_7;
+    document.getElementById("essence_slot_8").innerHTML = rougulator_essences_button_8;
+    document.getElementById("linking_essence_slot_1").innerHTML = rougulator_linking_essences_button_1;
+    document.getElementById("linking_essence_slot_2").innerHTML = rougulator_linking_essences_button_2;
+    document.getElementById("linking_essence_slot_3").innerHTML = rougulator_linking_essences_button_3;
+    document.getElementById("linking_essence_slot_4").innerHTML = rougulator_linking_essences_button_4;
+}
+
 // =n W n= //
 function shopOverlay() {
     overlay.innerHTML = `
@@ -104,11 +121,11 @@ function shopOverlay() {
         <div class = "shop_frame">
             <div class = "shop_Header_frame">
                 <p class = "shop_title">Shop</p>
-                <p class = "shop_currency_display">Shards: ${totalShards}</p>  
+                <p class = "shop_currency_display" id="shop_currency_display">Shards: ${totalShards}</p>  
             </div>
             <div class = "shop_content_frame">
                 <div class = "shop_item_frame">
-                    <div class = "linking_essence_shop_item">
+                    <div class = "linking_essence_shop_item" id = "linking_essence_shop_item">
                         <div class = "linking_essence_shop_item_name" id="linking_essence_shop_item_name"></div>
                         <div class = "linking_essence_shop_item_image" id="linking_essence_shop_item_image"></div>
                         <div class = "linking_essence_shop_item_description" id="linking_essence_shop_item_description"></div>
@@ -137,6 +154,33 @@ function shopOverlay() {
         </div>
     </div>
     `
+    overlay.style.display = "flex";
+
+    updateShop(true);
+
+    document.getElementById("leave_shop_button").addEventListener("click", function() {
+        overlay.innerHTML = "";
+        overlay.style.display = "none";
+    });
+
+    document.getElementById("restock_shop_button").addEventListener("click", function() {
+        totalShards -= 5;
+        updateShop(true);
+    });
+
+    document.getElementById("linking_essence_shop_item").addEventListener("click", function() {
+        if (totalShards >= Number(linking_essence_shop_item_cost.innerHTML)) {
+                overlay.style.display = "none";
+                overlay2.style.display = "flex";
+                editRougeulatorButtons(false);
+        } else {
+            alert("Not enough shards!"); // if i have time change to something cleaner later.
+        }
+    });
+}
+
+function updateShop(random) {
+    //-- local variables --//
     let linking_essence_shop_item_name = document.getElementById("linking_essence_shop_item_name");
     let linking_essence_shop_item_image = document.getElementById("linking_essence_shop_item_image");
     let linking_essence_shop_item_description = document.getElementById("linking_essence_shop_item_description");
@@ -149,17 +193,12 @@ function shopOverlay() {
     let essence_shop_item_2_image = document.getElementById("essence_shop_item_2_image");
     let essence_shop_item_2_description = document.getElementById("essence_shop_item_2_description");
     let essence_shop_item_2_cost = document.getElementById("essence_shop_item_2_cost");
-    overlay.style.display = "flex";
-
-    document.getElementById("leave_shop_button").addEventListener("click", function() {
-        overlay.innerHTML = "";
-        overlay.style.display = "none";
-    });
-
-    //populate the shop with random items form the dictionaries.
-    let random_linking_essence = Linking_Essence_dictionary[Math.floor(Math.random() * Object.keys(Linking_Essence_dictionary).length)];
-    let random_essence_1 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
-    let random_essence_2 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
+    if (random === true) {
+        random_linking_essence = Linking_Essence_dictionary[Math.floor(Math.random() * Object.keys(Linking_Essence_dictionary).length)];
+        random_essence_1 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
+        random_essence_2 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
+    } else {
+    }
 
     linking_essence_shop_item_name.innerHTML = random_linking_essence.essence_name;
     linking_essence_shop_item_image.innerHTML = random_linking_essence.image;
@@ -173,7 +212,58 @@ function shopOverlay() {
     essence_shop_item_2_image.innerHTML = random_essence_2.image;
     essence_shop_item_2_description.innerHTML = random_essence_2.description;
     essence_shop_item_2_cost.innerHTML = random_essence_2.cost;
-}
+    document.getElementById("shop_currency_display").innerHTML = `Shards: ${totalShards}`;
+};
+
+// =n W n= //
+function editRougeulatorButtons(essence) {
+    if (essence === true) {
+        
+    } else {
+        overlay2.innerHTML = `
+        <button class = "close_edit_rougeulator_button" id = "close_edit_rougeulator_button">Return</button>
+        <div class = "edit_rougeulator_frame">
+            <div class = "edit_display_screen_frame">
+                <div class = "edit_display_screen"></div>
+                    <p class = "edit_display_screen_text">:</p>
+                <div class = "edit_display_screen_screw"></div>
+            </div>
+            <div class = "edit_essence_frame">
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_1"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_2"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_3"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_4"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_5"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_6"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_7"></button>
+                <button class = "edit_essence_button_grey" id = "edit_essence_slot_8"></button>
+            </div>
+            <div class = "linking_essence_frame">
+                <button class = "edit_linking_essence_button" id = "edit_linking_essence_slot_1"></button>
+                <button class = "edit_linking_essence_button" id = "edit_linking_essence_slot_2"></button>
+                <button class = "edit_linking_essence_button" id = "edit_linking_essence_slot_3"></button>
+                <button class = "edit_linking_essence_button" id = "edit_linking_essence_slot_4"></button>
+            </div>
+        </div>
+        `
+
+        document.getElementById("close_edit_rougeulator_button").addEventListener("click", function() {
+            overlay2.innerHTML = "";
+            overlay2.style.display = "none";
+            overlay.style.display = "flex";
+        });
+
+        document.getElementById("edit_linking_essence_slot_1").addEventListener("click", function() {
+            totalShards -= linking_essence_shop_item_cost.innerHTML;
+            rougulator_linking_essences_button_1 = random_linking_essence;
+            document.getElementById("")
+            overlay2.innerHTML = "";
+            overlay2.style.display = "none";
+            overlay.style.display = "flex";
+            updateShop(false);
+        });
+    }
+};
 
 // =n W n= //
 function debugCalc() { //can only be called in the html terminal
