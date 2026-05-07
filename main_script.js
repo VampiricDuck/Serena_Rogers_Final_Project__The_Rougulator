@@ -1,4 +1,3 @@
-
 // ------------------------------------------------------------------------------//
 // Global Variables //
 const main_page = document.getElementById("main_page");
@@ -7,12 +6,17 @@ const overlay2 = document.getElementById("overlay2");
 let rougeulator_screen_value = "";
 let totalShards = 0;
 let edit_essence_1 = false;
+let points = 0;
+let trial_room_number = 0;
+let startup = true;
 // ------------------------------------------------------------------------------//
+
 
 // ------------------------------------------------------------------------------//
 // Initial Setup //
 createMainMenu();
 // ------------------------------------------------------------------------------//
+
 
 // ------------------------------------------------------------------------------//
 // Functions //
@@ -31,7 +35,6 @@ function createMainMenu() {
     });
     document.getElementById("exit_game_button").addEventListener("click", function() {
         window.close(); // this does not work in most browsers due to security reasons, have to find a way later.
-        alert("No");
     });
     document.getElementById("feats_button").addEventListener("click", function() {
         destroyMainMenu();
@@ -39,15 +42,18 @@ function createMainMenu() {
     });
 }
 
+
 // =n W n= //
 function destroyMainMenu() {
     main_page.innerHTML = "";
 }
 
+
 // =n W n= //
 function createTheRougeulator() {
     main_page.appendChild(document.createElement("div")).id = "the_rougeulator";
     document.getElementById("the_rougeulator").innerHTML = `
+    <p class = rougeulator_points_display id="rougeulator_points_display">Points: ${points}</p>
     <p class = "rougeulator_shards_display" id="rougeulator_shards_display">Shards: ${totalShards}</p>
     <div class = "rougeulator_frame">
         <div class = "display_screen_frame">
@@ -76,17 +82,61 @@ function createTheRougeulator() {
         </div>
     </div>
     <button id = "debug_essence_button">Debug</button>
+    <button id = "debug_calc_button">Debug Calc</button>
     `
+
+
+    document.getElementById("essence_slot_1").addEventListener("click", function() {
+        rougulator_essences_button_1.ability();
+    });
+    document.getElementById("essence_slot_2").addEventListener("click", function() {
+        rougulator_essences_button_2.ability();
+    });
+    document.getElementById("essence_slot_3").addEventListener("click", function() {
+        rougulator_essences_button_3.ability();
+    });
+    document.getElementById("essence_slot_4").addEventListener("click", function() {
+        rougulator_essences_button_4.ability();
+    });
+    document.getElementById("essence_slot_5").addEventListener("click", function() {
+        rougulator_essences_button_5.ability();
+    });
+    document.getElementById("essence_slot_6").addEventListener("click", function() {
+        rougulator_essences_button_6.ability();
+    });
+    document.getElementById("essence_slot_7").addEventListener("click", function() {
+        rougulator_essences_button_7.ability();
+    });
+    document.getElementById("essence_slot_8").addEventListener("click", function() {
+        rougulator_essences_button_8.ability();
+    });
+    document.getElementById("linking_essence_slot_1").addEventListener("click", function() {
+        rougulator_linking_essences_button_1.ability();
+    });
+    document.getElementById("linking_essence_slot_2").addEventListener("click", function() {
+        rougulator_linking_essences_button_2.ability();
+    });
+    document.getElementById("linking_essence_slot_3").addEventListener("click", function() {
+        rougulator_linking_essences_button_3.ability();
+    });
+    document.getElementById("linking_essence_slot_4").addEventListener("click", function() {
+        rougulator_linking_essences_button_4.ability();
+    });
+
+
     document.getElementById("debug_essence_button").addEventListener("click", function() {
         totalShards = 1000000;
-
-        shopOverlay();
     });
     document.getElementById("disintegrate_button").addEventListener("click", function() {
         document.getElementById("display_screen_text").innerHTML = ":";
         rougeulator_screen_value = "";
     });
+    document.getElementById("debug_calc_button").addEventListener("click", function() {
+        console.log(eval(rougeulator_screen_value));
+    });
+    shopOverlay();
 };
+
 
 function updateRougeulator() {
     document.getElementById("rougeulator_shards_display").innerHTML = `Shards: ${totalShards}`;
@@ -104,6 +154,7 @@ function updateRougeulator() {
     document.getElementById("linking_essence_slot_4").innerHTML = rougulator_linking_essences_button_4.name;
 }
 
+
 // =n W n= //
 function shopOverlay() {
     overlay.innerHTML = `
@@ -113,6 +164,11 @@ function shopOverlay() {
                 <p class = "shop_title">Shop</p>
                 <p class = "shop_currency_display" id="shop_currency_display">Shards: ${totalShards}</p>  
             </div>
+            <div class = "trial_info_frame">
+                <div class = "trial_name" id="trial_name"></div>
+                <div class = "required_total_points" id="required_total_points"></div>
+                <div class = "trial_required_value" id="trial_required_value"></div>
+            </div>
             <div class = "shop_content_frame">
                 <div class = "shop_item_frame">
                     <div class = "linking_essence_shop_item" id = "linking_essence_shop_item">
@@ -121,19 +177,17 @@ function shopOverlay() {
                         <div class = "linking_essence_shop_item_description" id="linking_essence_shop_item_description"></div>
                         <div class = "linking_essence_shop_item_cost" id="linking_essence_shop_item_cost"></div>
                     </div>
-                    <div class = "essence_shop_items">
-                        <div class = "essence_shop_item" id = "essence_shop_item_1">
-                            <div class = "essence_shop_item_name" id="essence_shop_item_1_name"></div>
-                            <div class = "essence_shop_item_image" id="essence_shop_item_1_image"></div>
-                            <div class = "essence_shop_item_description" id="essence_shop_item_1_description"></div>
-                            <div class = "essence_shop_item_cost" id="essence_shop_item_1_cost"></div>
-                        </div>
-                        <div class = "essence_shop_item" id = "essence_shop_item_2">
-                            <div class = "essence_shop_item_name" id="essence_shop_item_2_name"></div>
-                            <div class = "essence_shop_item_image" id="essence_shop_item_2_image"></div>
-                            <div class = "essence_shop_item_description" id="essence_shop_item_2_description"></div>
-                            <div class = "essence_shop_item_cost" id="essence_shop_item_2_cost"></div>
-                        </div>
+                    <div class = "essence_shop_item" id = "essence_shop_item_1">
+                        <div class = "essence_shop_item_name" id="essence_shop_item_1_name"></div>
+                        <div class = "essence_shop_item_image" id="essence_shop_item_1_image"></div>
+                        <div class = "essence_shop_item_description" id="essence_shop_item_1_description"></div>
+                        <div class = "essence_shop_item_cost" id="essence_shop_item_1_cost"></div>
+                    </div>
+                    <div class = "essence_shop_item" id = "essence_shop_item_2">
+                        <div class = "essence_shop_item_name" id="essence_shop_item_2_name"></div>
+                        <div class = "essence_shop_item_image" id="essence_shop_item_2_image"></div>
+                        <div class = "essence_shop_item_description" id="essence_shop_item_2_description"></div>
+                        <div class = "essence_shop_item_cost" id="essence_shop_item_2_cost"></div>
                     </div>
                 </div>
                 <div class = "shop_buttons_frame">
@@ -146,40 +200,51 @@ function shopOverlay() {
     `
     overlay.style.display = "flex";
 
-    updateShop(true);
+    if (startup === true) {
+        updateShop(false, true);
+        startup = false;
+    };
+
 
     document.getElementById("leave_shop_button").addEventListener("click", function() {
         overlay.innerHTML = "";
         overlay.style.display = "none";
     });
 
+
     document.getElementById("restock_shop_button").addEventListener("click", function() {
-        totalShards -= 5;
-        updateShop(true);
-        updateRougeulator();
+        if (totalShards >= 5) {
+            totalShards -= 5;
+            updateShop(true);
+            updateRougeulator();
+        } else {
+            alert("Not enough shards!"); // if i have time change to something cleaner later.
+        }
     });
-    
+   
     document.getElementById("essence_shop_item_1").addEventListener("click", function() {
         if (totalShards >= Number(essence_shop_item_1_cost.innerHTML)) {
                 overlay.style.display = "none";
                 overlay2.style.display = "flex";
-                editRougeulatorButtons(true);
                 edit_essence_1 = true;
+                editRougeulatorButtons(true);
         } else {
             alert("Not enough shards!"); // if i have time change to something cleaner later.
         }
     });
 
+
     document.getElementById("essence_shop_item_2").addEventListener("click", function() {
         if (totalShards >= Number(essence_shop_item_2_cost.innerHTML)) {
                 overlay.style.display = "none";
                 overlay2.style.display = "flex";
-                editRougeulatorButtons(true);
                 edit_essence_1 = false;
+                editRougeulatorButtons(true);
         } else {
             alert("Not enough shards!"); // if i have time change to something cleaner later.
         }
     });
+
 
     document.getElementById("linking_essence_shop_item").addEventListener("click", function() {
         if (totalShards >= Number(linking_essence_shop_item_cost.innerHTML)) {
@@ -192,7 +257,8 @@ function shopOverlay() {
     });
 }
 
-function updateShop(random) {
+// =n W n= //
+function updateShop(random, startup) {
     //-- local variables --//
     let linking_essence_shop_item_name = document.getElementById("linking_essence_shop_item_name");
     let linking_essence_shop_item_image = document.getElementById("linking_essence_shop_item_image");
@@ -210,7 +276,10 @@ function updateShop(random) {
         random_linking_essence = Linking_Essence_dictionary[Math.floor(Math.random() * Object.keys(Linking_Essence_dictionary).length)];
         random_essence_1 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
         random_essence_2 = Essence_dictionary[Math.floor(Math.random() * Object.keys(Essence_dictionary).length)];
-    } else {
+    } else if (startup === true) {
+        random_essence_1 = essence_start1;
+        random_essence_2 = essence_start2;
+        random_linking_essence = linking_essence_start1;
     }
 
     linking_essence_shop_item_name.innerHTML = random_linking_essence.essence_name;
@@ -227,6 +296,7 @@ function updateShop(random) {
     essence_shop_item_2_cost.innerHTML = random_essence_2.cost;
     document.getElementById("shop_currency_display").innerHTML = `Shards: ${totalShards}`;
 };
+
 
 // =n W n= //
 function editRougeulatorButtons(essence) {
@@ -256,7 +326,7 @@ function editRougeulatorButtons(essence) {
             </div>
         </div>
     `
-    
+   
     document.getElementById("close_edit_rougeulator_button").addEventListener("click", function() {
         overlay2.innerHTML = "";
         overlay2.style.display = "none";
@@ -439,7 +509,7 @@ function editRougeulatorButtons(essence) {
         document.getElementById("edit_essence_slot_6").className = "edit_essence_button_disabled";
         document.getElementById("edit_essence_slot_7").className = "edit_essence_button_disabled";
         document.getElementById("edit_essence_slot_8").className = "edit_essence_button_disabled";
-        
+       
         document.getElementById("edit_linking_essence_slot_1").addEventListener("click", function() {
             totalShards -= linking_essence_shop_item_cost.innerHTML;
             rougulator_linking_essences_button_1 = random_linking_essence;
@@ -483,22 +553,72 @@ function editRougeulatorButtons(essence) {
     }
 };
 
+
 // =n W n= //
 function debugCalc() { //can only be called in the html terminal
     let calc = document.getElementById("display_screen_text").innerHTML;
     console.log(eval(rougeulator_screen_value));
 }
+
+// =n W n= //
+function createRandomTrial() {
+    trial_room_number ++;
+    trial_difficulty = 0;
+    if (trial_room_number === 1) {
+        let trial1 = new trialTemplate("Trial 1", 0, false, 10, 3);
+    } else {
+        let datrialName = `Trial ${trial_room_number}`;
+        if (trial_room_number <= 5) {
+            trial_difficulty = 1;
+        } else if (trial_room_number <= 10) {
+            trial_difficulty = 2;
+        } else if (trial_room_number <= 15) {
+            trial_difficulty = 3;
+        } // continue working here
+    }
+}
 // ------------------------------------------------------------------------------//
+
 
 // ------------------------------------------------------------------------------//
 // Classes //
 class trialTemplate {
-    constructor (title, difficulty, boss) {
+    constructor (title, difficulty, boss, required_points, required_value) {
         this.title = title;
         this.difficulty = difficulty;
         this.boss = boss;
+        this.required_points = required_points;
+        this.required_value = required_value;
     }
-
+    displayTrialInfo() {
+        document.getElementById("trial_name").innerHTML = `Trial: ${this.title}`;
+        document.getElementById("required_total_points").innerHTML = `Point Goal: ${this.required_points}`;
+        document.getElementById("trial_required_value").innerHTML = `Value Goal: ${this.required_value}`;
+    }
+    calculateValueCloseness() {
+        let pass = false
+        let closeness = Math.abs(this.required_value - eval(rougeulator_screen_value));
+        if (closeness === 0) {
+            points += this.required_points + 10;
+            pass = true;
+            trial_room_number ++;
+        } else if (closeness <= 1) {
+            points += this.required_points;
+            pass = true;
+            trial_room_number ++;
+        } else if (closeness <= 5) {
+            points += this.required_points - 2;
+            pass = true;
+            trial_room_number ++;
+        } else if (closeness <= 10) {
+            points += this.required_points - 10;
+            pass = true;
+            trial_room_number ++;
+        } else {
+            pass = false;
+        }
+        return pass;
+    }
 }
 
 // =n W n= //
@@ -517,6 +637,7 @@ class essenceTemplate {
     }
 }
 
+
 // =n W n= //
 class numericalEssence extends essenceTemplate {
     constructor (name, essence_name, type, value, description, effect, cost, ID, rarity, image) {
@@ -529,8 +650,12 @@ class numericalEssence extends essenceTemplate {
 }
 // ------------------------------------------------------------------------------//
 
+
 // ------------------------------------------------------------------------------//
 // Classes Objects //
+let essence_start1 = new numericalEssence("2", "essence_start1", "essence", 2, "", "", 0, "", "", "");
+let essence_start2 = new numericalEssence("3", "essence_start2", "essence", 3, "", "", 0, "", "", "");
+let linking_essence_start1 = new essenceTemplate("+", "linking_essence_start1", "linking_essence", "+", "", "", 0, "", "", "");
 let essence_null = new numericalEssence("", "", "", "", "", "", "", "", "", "");
 let essence_one = new numericalEssence("1", "essence_1", "essence", 1, "", "", 10, 0, 1, "");
 let essence_two = new numericalEssence("2", "essence_2", "essence", 2, "", "", 10, 1, 1, "");
@@ -547,6 +672,7 @@ let essence_subtract = new numericalEssence("-", "essence_subtract", "linking_es
 let essence_multiply = new numericalEssence("*", "essence_multiply", "linking_essence", "*", "", "", 10, 12, 1, "");
 let essence_divide = new numericalEssence("/", "essence_divide", "linking_essence", "/", "", "", 10, 13, 1, "");
 
+
 // =n W n= //
 let Essence_dictionary = {
     0: essence_one,
@@ -560,6 +686,7 @@ let Essence_dictionary = {
     8: essence_nine,
     9: essence_zero,
 };
+
 
 // =n W n= //
 let Linking_Essence_dictionary = {
